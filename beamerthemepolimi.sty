@@ -1,0 +1,54 @@
+% Pasquale Africa <pasqualeclaudio.africa@polimi.it>
+% Beamer port of the official PoliMi presentation theme.
+
+\mode<all>
+
+\newif\if@bgphoto
+\@bgphotofalse
+\DeclareOption{bgphoto}{\@bgphototrue}
+
+\newif\if@nologo
+\@nologofalse
+\DeclareOption{nologo}{\@nologotrue}
+\ProcessOptions
+
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+\graphicspath{{beamerthemepolimi_img/}}
+
+\RequirePackage{etoolbox} % \patchcmd
+
+\useinnertheme{polimi}
+\useoutertheme{polimi}
+\usecolortheme{polimi}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{itemize items}[square]
+\setbeamertemplate{itemize subitem}[triangle]
+
+% Set margins.
+\setbeamersize{text margin left=\xshift, text margin right=\xshift}
+\setlength{\leftmargini}{\xshift}
+
+\let\oldtoc\tableofcontents
+\renewcommand{\tableofcontents}[1][]{%
+    \hspace*{0.5\xshift}
+    \begin{minipage}{\textwidth}
+        \oldtoc[#1]
+    \end{minipage}
+}
+
+% renew section command with options for a large background image
+\define@key{mysection}{short}[]{\def\mysectionshort{#1}}
+\define@key{mysection}{image}[]{\def\insertsectiongraphic{#1}}
+% Of course, we need to take care of the starred version too
+\newcommand*{\old@section}{}
+\let\old@section\section
+\renewcommand*{\section}{%
+  \@ifstar{\old@section*}{\new@section}%
+}
+\newcommand*{\new@section}[2][]{%
+  \setkeys{mysection}{short,image,#1}%
+  \old@section{#2}%
+}

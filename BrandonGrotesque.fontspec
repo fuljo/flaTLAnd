@@ -1,0 +1,14 @@
+\defaultfontfeatures[Brandon Grotesque]
+{
+  Extension = .otf,
+  UprightFont       = * Regular,
+  ItalicFont        = * Regular Italic,
+  BoldFont          = * Bold,
+  BoldItalicFont    = * Bold Italic,
+  FontFace          = {l}{n}{* Light},
+  FontFace          = {l}{it}{* Light Italic},
+  FontFace          = {mb}{n}{* Light},
+  FontFace          = {mb}{it}{* Light Italic},
+  FontFace          = {k}{n}{* Black},
+  FontFace          = {k}{it}{* Black Italic},
+}
