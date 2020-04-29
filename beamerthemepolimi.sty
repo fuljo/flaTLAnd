@@ -17,6 +17,7 @@
 \graphicspath{{beamerthemepolimi_img/}}
 
 \RequirePackage{etoolbox} % \patchcmd
+\RequirePackage[overload]{textcase}
 
 \useinnertheme{polimi}
 \useoutertheme{polimi}
@@ -39,6 +40,7 @@
     \end{minipage}
 }
 
+\makeatletter
 % renew section command with options for a large background image
 \define@key{mysection}{short}[]{\def\mysectionshort{#1}}
 \define@key{mysection}{image}[]{\def\insertsectiongraphic{#1}}
@@ -52,3 +54,19 @@
   \setkeys{mysection}{short,image,#1}%
   \old@section{#2}%
 }
+
+%do the same for the subsection
+\define@key{mysubsection}{short}[]{\def\mysubsectionshort{#1}}
+\define@key{mysubsection}{image}[]{\def\insertsubsectiongraphic{#1}}
+% Of course, we need to take care of the starred version too
+\newcommand*{\old@subsection}{}
+\let\old@subsection\subsection
+\renewcommand*{\subsection}{%
+  \@ifstar{\old@subsection*}{\new@subsection}%
+}
+\newcommand*{\new@subsection}[2][]{%
+  \setkeys{mysubsection}{short,image,#1}%
+  \old@subsection{#2}%
+}
+
+\makeatother

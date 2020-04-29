@@ -8,7 +8,7 @@
             \if@bgphoto
                 \node at (current page.north) [anchor=north, inner sep=0pt] {\includegraphics[width=\paperwidth]{bgphoto_cut.jpg}};
             \fi
-            \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.4415\paperheight, fill=bluePolimi] {};
+            \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.4415\paperheight, fill=darkbluePolimi] {};
             \if@nologo\else
                 \node at (foot.north) [anchor=south, inner sep=0.5cm] {
                     \if@bgphoto
@@ -22,9 +22,9 @@
         \end{tikzpicture}
     \else
         \begin{tikzpicture}[overlay, remember picture]
-            \node (head) at (current page.north) [anchor=north, minimum width=\paperwidth, minimum height=0.1835\paperheight, fill=bluePolimi] {};
+            \node (head) at (current page.north) [anchor=north, minimum width=\paperwidth, minimum height=0.1835\paperheight, fill=darkbluePolimi] {};
             \node at ([shift={(0, 0.1)}] head.south) {\includegraphics[width=\paperwidth]{decoration.pdf}};
-            \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.105\paperheight, fill=bluePolimi] {};
+            \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.105\paperheight, fill=darkbluePolimi] {};
         \end{tikzpicture}
     \fi
 }
@@ -32,7 +32,7 @@
 % Only footer background.
 \defbeamertemplate*{background}{footer}{
     \begin{tikzpicture}[overlay, remember picture]
-    \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.105\paperheight, fill=bluePolimi] {};
+    \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.105\paperheight, fill=darkbluePolimi] {};
     \end{tikzpicture}
 }
 
@@ -42,23 +42,33 @@
     \color{white}
     \vspace{4.25cm}
     
-    \begin{minipage}[t][\baselineskip]{\paperwidth}
-        {\Large\bf \inserttitle}
+    \begin{minipage}[t][\baselineskip]{\textwidth}
+        \centering%
+        {\huge
+        \ifxetex
+            \fontseries{k}\selectfont
+        \else
+            \bf
+        \fi
+        \MakeTextUppercase{\inserttitle}}
     \end{minipage}
     \\[\baselineskip]
-    \begin{minipage}[t][2\baselineskip]{\paperwidth}
-        {\large \insertsubtitle}
+    \begin{minipage}[t][2\baselineskip]{\textwidth}
+        \centering%
+        {\Large \MakeTextUppercase{\insertsubtitle}}
     \end{minipage}
     
     \vfill
     
-    \begin{minipage}[t][\baselineskip]{\paperwidth}
-        {\large\bf \insertauthor}
+    \begin{minipage}[b][1.5\baselineskip]{\textwidth}
+        \centering%
+        {\small\bf \insertauthor}
     \end{minipage}
     
-    \begin{minipage}[t][\baselineskip]{\paperwidth}
-        \insertdate
-    \end{minipage}
+    % \begin{minipage}[t][\baselineskip]{\textwidth}
+    %     \centering
+    %     \MakeTextUppercase{\insertdate}
+    % \end{minipage}
     
     \vfill
     
@@ -67,7 +77,7 @@
 
 % Table of Contents.
 \setbeamertemplate{section in toc}[circle]
-\setbeamertemplate{subsection in toc}{\leavevmode \leftskip=0.7em {\color{bluePolimi} $\bullet$} \hskip1pt \inserttocsubsection\par}  
+\setbeamertemplate{subsection in toc}{\leavevmode \leftskip=0.7em {\color{darkbluePolimi} $\bullet$} \hskip1pt \inserttocsubsection\par}  
 
 % Section page.
 \defbeamertemplate*{section page}{polimi}{
@@ -75,7 +85,7 @@
         \ifdefempty{\insertsectiongraphic}{}{%
             \node at (current page.north) [anchor=north, inner sep=0pt] {\includegraphics[width=\paperwidth]{\insertsectiongraphic}};
         }
-        \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.4415\paperheight, fill=bluePolimi] {};
+        \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.4415\paperheight, fill=darkbluePolimi] {};
         \node at ([shift={(0, -0.1)}] foot.north) {\includegraphics[width=\paperwidth]{decoration.pdf}};
         \path let \p1 = ([shift={(0, 0.105\paperheight+0.25)}] current page.south west), \p2 = (current page.east) in (\x1, \y1) edge [white, line width=0.5] (\x2, \y1);
         \node at ([shift={(\xshift, 3.5)}] current page.south west) [anchor=north west, inner sep=0pt, text width=\textwidth]
@@ -90,7 +100,10 @@
 % Subsection page.
 \defbeamertemplate*{subsection page}{polimi}{
     \begin{tikzpicture}[overlay, remember picture]
-    \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.4415\paperheight, fill=bluePolimi] {};
+    \ifdefempty{\insertsubsectiongraphic}{}{%
+        \node at (current page.north) [anchor=north, inner sep=0pt] {\includegraphics[width=\paperwidth]{\insertsubsectiongraphic}};
+    }
+    \node (foot) at (current page.south) [anchor=south, minimum width=\paperwidth, minimum height=0.4415\paperheight, fill=darkbluePolimi] {};
     \node at ([shift={(0, -0.1)}] foot.north) {\includegraphics[width=\paperwidth]{decoration.pdf}};
     \path let \p1 = ([shift={(0, 0.105\paperheight+0.25)}] current page.south east), \p2 = (current page.west) in (\paperwidth,\y1) edge [white, line width=0.5] (\x2,\y1);
     \node at ([shift={(\xshift, 3.5)}] current page.south west) [anchor=north west, inner sep=0pt, text width=\textwidth]
