@@ -2,9 +2,11 @@
 \usepackage[english]{babel}
 
 \usepackage{lipsum}
+\usepackage{tlatex}
 
-% Theme from https://github.com/elauksap/beamerthemepolimi
+% Theme based on https://github.com/elauksap/beamerthemepolimi
 \usetheme[bgphoto]{polimi}
+\usefonttheme[onlymath]{serif}
 
 % Set custom font (requires to compile with XeLaTeX).
 \usepackage{ifxetex}
@@ -86,4 +88,26 @@
             Example \textcolor{greenPolimi}{text}.
         \end{exampleblock}
     \end{frame}
+
+    \begin{frame}[fragile]{A small example}
+        \begin{minipage}{\textwidth}
+            In this example we show a tiny bit of TLA+ code
+            \begin{tla}
+                Action == /\ a' = b + c + "string"
+                          /\ UNCHANGED <<b,c>>
+            \end{tla}
+            \begin{tlatex}
+                \@x{\@s{65.6} Action \.{\defeq} \.{\land} a \.{'} \.{=} b \.{+} c
+                \.{+}\@w{string}}%
+                \@x{\@s{101.61} \.{\land} {\UNCHANGED} {\langle} b ,\, c {\rangle}}%
+            \end{tlatex}
+        \end{minipage}
+    \end{frame}
+
+    \input{sections/1.introduction.tex}
+
+    \input{sections/2.clock.tex}
+
+    \input{sections/3.twophace.tex}
+
 \end{document}
