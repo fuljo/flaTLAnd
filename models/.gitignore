@@ -1,0 +1,6 @@
+*.pdf
+*SnapShot*
+.project
+.settings
+*.launch
+**/*.toolbox/*.tex
