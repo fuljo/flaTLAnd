@@ -1,0 +1,119 @@
+\section[image=bgphoto_cut]{First Modelling Example}
+\begin{frame}[plain]{}
+    \sectionpage
+\end{frame}
+
+\begin{frame}{Modelling a Clock}
+    A \textbf{Clock} is a device with 2 hands:
+    \begin{itemize}
+        \item The hours one, from 0 to 23
+        \item The minutes one, from 0 to 59
+    \end{itemize}
+    \pause
+    The clock should start at 00:00.
+    \pause
+    \begin{itemize}
+        \item After the minutes hand reaches 59, it goes back to 0 and the hours one is incremented.
+        \item After the hours hand reaches 23, it goes back to 0.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Modelling variables}
+    We need to define 2 variables:
+    \pause
+    \begin{itemize}[<+->]
+        \item \texttt{hr} -- The current hour of the clock
+        \item \texttt{min} -- The current minute of the clock
+    \end{itemize}
+    \onslide<+->
+    The only valid initial state for the clock is
+    \[
+        \texttt{hr} = 0 \quad \land \quad \texttt{min} = 0
+    \]
+\end{frame}
+
+\begin{frame}{Modelling transitions}
+    \begin{block}{Next minute}
+        The next minute (\texttt{min'}) is the current one (\texttt{min}) plus one. Buf if the minute is already 59, the next is 0.
+    \end{block}
+    \pause
+    \begin{block}{Next hour}
+        \only<2>{
+            \texttt{hr' = hr + 1}\\
+            \texttt{\phantom{lol}}\\
+            \texttt{\phantom{lol}}\\
+            \texttt{\phantom{lol}}\\
+            \texttt{\phantom{lol}}\\
+        }
+        \only<3>{
+            \texttt{hr' = IF min < 59}\\
+            \texttt{\phantom{hr' = }THEN hr}\\
+            \texttt{\phantom{hr' = }ELSE hr + 1}\\
+            \texttt{\phantom{lol}}\\
+            \texttt{\phantom{lol}}\\
+        }
+        \only<4->{
+            \texttt{hr' = IF min < 59}\\
+            \texttt{\phantom{hr' = }THEN hr}\\
+            \texttt{\phantom{hr' = }ELSE IF hr < 23}\\
+            \texttt{\phantom{hr' = ELSE }THEN hr + 1}\\
+            \texttt{\phantom{hr' = ELSE }ELSE 0}
+        }
+    \end{block}
+    \onslide<5->
+    \begin{block}{Next Predicate}
+        \texttt{Next == NextMin $\land$ NextHr}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Behavior Specification}
+    \begin{block}{Option \#1: Init-Next Predicates}
+        The model is defined via the predicate for the initial states (\texttt{Init}), and a predicate for the \emph{next} relation (\texttt{Next}).
+    \end{block}
+    \pause
+    \begin{block}{Option \#2: Temporal Formula}
+        Specify the behavior using a temporal formula:
+
+        \[
+            \texttt{Init} \land \square \texttt{[Next]}_{\texttt{vars}}
+        \]
+    \end{block}
+\end{frame}
+
+\begin{frame}{Check Temporal Formulae}
+    We want to verify some temporal formulae:
+    \begin{itemize}
+        \item The clock always ticks
+        \item All the possible times are reachable
+    \end{itemize}
+    \pause
+    \begin{block}{The clock always ticks}
+        \[
+            \texttt{AlwaysTick == } \square \Diamond \texttt{Next}_{\texttt{vars}}
+        \]
+    \end{block}
+    \pause
+    \begin{block}{All the possible times are reachable}
+        \begin{equation*}
+            \begin{gathered}
+                \texttt{AllTimes == } \forall h \in (0 \ldots 23), m \in (0 \ldots 59):\\
+                \square \Diamond (\texttt{hr = } h\; \land\; \texttt{min = } m)
+            \end{gathered}
+        \end{equation*}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Fixing the Specification}
+    Indeed the specified model is not entirely correct:
+    \[
+        \texttt{00:00} \rightarrow \texttt{00:00} \rightarrow \texttt{00:00} \rightarrow \texttt{00:00} \rightarrow \cdots
+    \]
+    is a valid behavior composed of an infinite sequence of \emph{stuttering steps}.
+    \pause
+    We need to add a fairness constraint
+    \begin{block}{Weak Fairness constraint}
+        \[
+            \texttt{LSpec == Clock } \land \texttt{ WF}_{\texttt{vars}}\texttt{(Next)}
+        \]
+    \end{block}
+\end{frame}
