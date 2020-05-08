@@ -2,7 +2,7 @@
 
 EXTENDS Clock
 
-LSpec == Clock /\ WF_vars(Next)
+LiveClock == Clock /\ WF_vars(Next)
 
 AlwaysTick == []<><<Next>>_vars
 AllTimes == \A h \in 0..23, m \in 0..59 : []<>(hr = h /\ min = m)
