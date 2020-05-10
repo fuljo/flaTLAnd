@@ -1,0 +1,62 @@
+\section[image=bgphoto_cut]{\tlap Introduction}
+\begin{frame}[plain]{}
+    \sectionpage
+\end{frame}
+
+\begin{frame}{Introduction}
+    \tlap\ is a high-level specification language for modeling concurrent and distributed digital systems:
+    \begin{itemize}
+        \item Algorithms
+        \item Programs
+        \item Complex computing systems
+    \end{itemize}
+
+    \tlap is based on set theory, first-order logic and the Temporal Logic of Actions (TLA); it uses ordinary, basic math.
+\end{frame}
+
+\begin{frame}{Leslie Lamport}
+    \tlap is developed by Leslie Lamport
+    \begin{itemize}
+        \item Original author of \LaTeX, first release in 1984
+        \item Fundamental contribution to the theory of distributed systems
+        \begin{itemize}
+            \item Logical Clocks
+            \item Byzantine General's problem
+            \item Chandy-Lamport distributed snapshot algorithm
+            \item Paxos algorithm
+            \item many, many other contributions
+        \end{itemize}
+        \item Turing Award in 2013 (and many other prizes)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\tlap ecosystem}
+    \setbeamercovered{transparent}
+    \begin{description}
+        \item<1->[\tlap] specification language
+        \item<1->[TLC] model checker and simulator of \tlap specs
+        \item<-1>[PlusCal] algorithm language similar to a simple programming language, can be translated to \tlap
+        \item<-1>[TLAPS] system for mechanically checking proofs written in TLA
+        \item<-1>[TLATeX] pretty-printer to typeset \tlap specifications in \LaTeX
+    \end{description}
+    \setbeamercovered{invisible}
+    \pause
+    \vspace{0.5cm}
+    \begin{center}
+        In this presentation, we will focus on \tlap and TLC
+    \end{center}
+\end{frame}
+
+%TODO: history?
+
+\begin{frame}{Motivations for simple, high-level language}
+    Why should we use an high-level language which uses ordinary and simple math instead of some kind of programming language?
+    \setbeamercovered{transparent}
+    \begin{itemize}[<+->]
+        \item It helps us abstract away from implementation details
+        \item No special or new syntax, only simple math
+        \item Specification of the system is written before the implementation, design errors are found as early as possible
+        \item Specification is independent from the language used for implementation
+    \end{itemize}
+    \setbeamercovered{invisible}
+\end{frame}
