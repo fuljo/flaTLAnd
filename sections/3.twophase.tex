@@ -1,0 +1,96 @@
+\section[image=bgphoto_cut]{Two-phase commit}
+\begin{frame}[plain]{}
+    \sectionpage
+\end{frame}
+
+\begin{frame}
+    \frametitle{Specifying two-phase commit}
+
+    Our goal is to model a system with one \alert{transaction manager} and
+    several \alert{resource managers} that need to perform a distributed
+    transaction.
+    The transaction may:
+    \begin{itemize}
+        \item \strong{commit} if all resource managers have committed
+        \item \strong{abort} in any other case
+    \end{itemize}
+
+    \begin{center} 
+        \begin{tikzpicture}[
+            >=stealth,
+            edge from parent/.style={draw,<->},
+            every node/.style={ellipse,draw}
+        ]
+            \node[rectangle, inner sep=.75em] (tm) {$tm$}
+            child foreach \x in {rm1,rm2,rm3} {
+                node {$\x$}
+            };
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\subsection{TCommit}
+\begin{frame}
+    \frametitle{Specifiyng transaction commit}
+    We start with a simple setting, in which
+    \begin{itemize}
+        \item we only consider the resource managers and their states
+        \item we do not model the transaction manager
+        \item we do not model the communication channels
+    \end{itemize}
+    \pause
+    The specification will be written in module $TCommit$, which will be
+    \strong{refined} later
+
+    \begin{center}
+        \begin{tlatex}
+            \moduleLeftDash{ {\MODULE} $TCommit$}\moduleRightDash
+        \end{tlatex}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{The set RM}
+
+    Define $RM$ as the set of all resource managers.
+
+    \begin{tlabox}
+        \CONSTANT $RM$
+    \end{tlabox}
+    \pause
+
+    In \tlap every constant value is a set, even
+    \begin{tlatex}
+        $0$, $1$, "abc"
+    \end{tlatex}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{}
+
+    \begin{center} 
+        \begin{tikzpicture}[
+            >=stealth,
+            sibling distance=7em,
+            edge from parent/.style={draw,->},
+            every node/.style={ellipse,draw}
+        ]
+            \node (w) {$working$}
+            child {
+                node (p) {$prepared$}
+                child {
+                    node[inner xsep=0] (c) {$committed$}
+                }
+                child {
+                    node (a) {$aborted$}
+                }
+            };
+            \path [draw, ->] (w.south east) to [bend left=30] (a.north);
+        \end{tikzpicture}
+    \end{center}
+
+\end{frame}
+
+
