@@ -1,10 +1,10 @@
-\section[image=bgphoto_cut]{\tlap Introduction}
+\section[image=bgphoto_cut]{Introduction}
 \begin{frame}[plain]{}
     \sectionpage
 \end{frame}
 
-\begin{frame}{Introduction}
-    \tlap\ is a high-level specification language for modeling concurrent and distributed digital systems:
+\begin{frame}{\tlap}
+    \tlap is a high-level specification language for modeling concurrent and distributed digital systems:
     \begin{itemize}
         \item Algorithms
         \item Programs
@@ -38,12 +38,13 @@
         \item<-1>[PlusCal] algorithm language similar to a simple programming language, can be translated to \tlap
         \item<-1>[TLAPS] system for mechanically checking proofs written in TLA
         \item<-1>[TLATeX] pretty-printer to typeset \tlap specifications in \LaTeX
+        \item<1->[Toolbox] IDE for all the \tlap tools
     \end{description}
     \setbeamercovered{invisible}
     \pause
     \vspace{0.5cm}
     \begin{center}
-        In this presentation, we will focus on \tlap and TLC
+        We will focus on \tlap and TLC and we will use the \tlap Toolbox
     \end{center}
 \end{frame}
 
@@ -59,4 +60,48 @@
         \item Specification is independent from the language used for implementation
     \end{itemize}
     \setbeamercovered{invisible}
+\end{frame}
+
+\begin{frame}{Industrial use of \tlap}
+    Who uses \tlap?
+    \setbeamercovered{transparent}
+    \begin{itemize}
+        \item<1> Intel
+        \only<1>{
+            \begin{itemize}
+                \item Used since 2002
+                \item Pre-RTL formal verification of cache-coherence protocol %TODO bib
+            \end{itemize}
+        }
+        \item<2> Microsoft
+        \only<2>{
+            \begin{itemize}
+                \item Used since 2004; usage increased in 2015 due to Azure
+                \item Found subtle bugs in memory coherence protocol of Xbox 360, Cosmos DB, lock-free data structures
+                \item Public specification of the consistency levels of Cosmos DB %TODO link to repo
+            \end{itemize}
+        }
+        \item<3> OpenComRTOS
+        \only<3>{
+            \begin{itemize}
+                \item New version of \emph{Virtuoso}, the OS of the European Space Agency's \emph{Rosetta} spacecraft
+                \item \tlap specification helped to have a cleaner architecture, achieving 10x less code than Virtuoso %TODO bib
+            \end{itemize}
+        }
+        \item<4> Amazon
+        \only<4>{
+            \begin{itemize}
+                \item Used since 2011 for AWS (Amazon Web Services)
+                \item As of 2014, used in 10 large complex systems %TODO bib
+            \end{itemize}
+        }
+    \end{itemize}
+    \setbeamercovered{invisible}
+\end{frame}
+
+\begin{frame}[plain]{Amazon}
+    \begin{figure}
+        \includegraphics[width=0.9\textwidth]{images/amazon.png}
+        \caption{\footnotesize Examples of \tlap usage at Amazon, from} %TODO bib
+    \end{figure}
 \end{frame}
