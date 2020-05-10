@@ -11,8 +11,8 @@
     transaction.
     The transaction may:
     \begin{itemize}
-        \item \strong{commit} if all resource managers have committed
-        \item \strong{abort} in any other case
+        \item \textbf{commit} if all resource managers have committed
+        \item \textbf{abort} in any other case
     \end{itemize}
 
     \begin{center} 
@@ -40,7 +40,7 @@
     \end{itemize}
     \pause
     The specification will be written in module $TCommit$, which will be
-    \strong{refined} later
+    \textbf{refined} later
 
     \begin{center}
         \begin{tlatex}
@@ -60,12 +60,14 @@
     \end{tlabox}
     \pause
 
-    In \tlap every constant value is a set, even
-    \begin{tlatex}
-        $0$, $1$, "abc"
-    \end{tlatex}
-
 \end{frame}
+
+\note{
+    We first define the set RM of all resource managers.
+    In TLA+ every constant value is a set, even 0, 1, the string "xyz".
+    But for these former sets the elements are simply undefined, so we
+    can't test if $a \in 0$
+}
 
 \begin{frame}
     \frametitle{}
