@@ -29,48 +29,69 @@
     \end{center}
 \end{frame}
 
+
+
 \subsection{TCommit}
 \begin{frame}
-    \frametitle{Specifiyng transaction commit}
-    We start with a simple setting, in which
+    \frametitle{Specifying transaction commit}
+    We start with a simple setting, in which we only consider the 
+    \alert{resource managers} and their \alert{states}.
+    We do \emph{not} model
     \begin{itemize}
-        \item we only consider the resource managers and their states
-        \item we do not model the transaction manager
-        \item we do not model the communication channels
+        \item the transaction manager
+        \item the communication channels
+        \item the transaction itself
     \end{itemize}
-    \pause
+    \uncover<2->{
     The specification will be written in module $TCommit$, which will be
-    \textbf{refined} later
+    refined later
 
     \begin{center}
         \begin{tlatex}
             \moduleLeftDash{ {\MODULE} $TCommit$}\moduleRightDash
         \end{tlatex}
     \end{center}
-
+    }
 \end{frame}
 
+\setbeamercovered{transparent}
+
 \begin{frame}
-    \frametitle{The set RM}
+    \frametitle{Constants and variables}
 
-    Define $RM$ as the set of all resource managers.
-
+    We declare $RM$ as the set of all resource managers and $rmState$ as the
+    state of each resource manager.
     \begin{tlabox}
-        \CONSTANT $RM$
+        &\CONSTANT RM \\
+        &\VARIABLE rmState
     \end{tlabox}
-    \pause
+
+    Every constant value is a set -- even 0, 1 and the string "xyz" --
+    but for the former their elements are simply undefined, so we
+    can't test if $a \in 0$.
+
+    We will assign elements to $RM$ when performing model checking.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Type checking}
+    \tlap doesn't provide explicit typing of variables. It is customary to
+    define an invariant $TypeOK$ to specify the \alert{domain} of each variable.
+    
+    \uncover<2->{
+    \begin{tlabox}
+        TCTypeOK \defeq rmState \in
+        [RM \rightarrow \{&\str{working}, \str{prepared}, \\
+                        &\str{committed},\str{aborted}\}]
+    \end{tlabox}
+    }
 
 \end{frame}
 
-\note{
-    We first define the set RM of all resource managers.
-    In TLA+ every constant value is a set, even 0, 1, the string "xyz".
-    But for these former sets the elements are simply undefined, so we
-    can't test if $a \in 0$
-}
+\setbeamercovered{invisible}
 
 \begin{frame}
-    \frametitle{}
+    \frametitle{Title}
 
     \begin{center} 
         \begin{tikzpicture}[
@@ -94,5 +115,3 @@
     \end{center}
 
 \end{frame}
-
-
