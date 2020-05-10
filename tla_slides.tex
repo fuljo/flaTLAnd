@@ -2,23 +2,7 @@
 \usepackage[english]{babel}
 
 \usepackage{lipsum}
-\usepackage{tlatex}
-\usepackage{amssymb}
-\usepackage{relsize}
-\usepackage{wasysym}
-
-\makeatletter
-\def\demo@ssize{\larger[-1]\scshape}
-\DeclareRobustCommand{\DeMo}{%
-  \mbox{\fontfamily{cmr}\selectfont%
-    D\kern-0.2em
-    \raisebox{-0.35ex}{\demo@ssize e}\kern-0.1em
-    \raisebox{0.05ex}M\kern-0.15em
-    \raisebox{-0.18ex}{\demo@ssize O}
-   }%
-}
-\makeatother
-\newcommand{\demo}{\hfill{\tiny\DeMo}}
+\usepackage{style}
 
 % Theme based on https://github.com/elauksap/beamerthemepolimi
 \usetheme[bgphoto]{polimi}
@@ -31,7 +15,7 @@
     \setsansfont[Scale=0.95]{Brandon Grotesque}
 \fi
 
-\title{TLA\texorpdfstring{\textsuperscript{+}}{+}}
+\title{\tlap}
 \subtitle{%
     A modeling language for
     \texorpdfstring{\linebreak}{}%

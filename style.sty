@@ -1,0 +1,43 @@
+
+\RequirePackage{tlatex}
+\RequirePackage{amssymb}
+\RequirePackage{relsize}
+\RequirePackage{wasysym}
+
+\RequirePackage{tcolorbox}
+
+\RequirePackage{tikz}
+\usetikzlibrary{trees, shapes.geometric, arrows}
+
+
+% Demo command
+\makeatletter
+\def\demo@ssize{\larger[-1]\scshape}
+\DeclareRobustCommand{\DeMo}{%
+  \mbox{\fontfamily{cmr}\selectfont%
+    D\kern-0.2em
+    \raisebox{-0.35ex}{\demo@ssize e}\kern-0.1em
+    \raisebox{0.05ex}M\kern-0.15em
+    \raisebox{-0.18ex}{\demo@ssize O}
+   }%
+}
+\makeatother
+\newcommand{\demo}{\hfill{\tiny\DeMo}}
+
+% Print TLA+ the right way, even in titles
+\newcommand{\tlap}{TLA\texorpdfstring{\textsuperscript{+}}{+}}
+
+%------------------------------------------------
+%	Color boxes
+%------------------------------------------------
+
+% Just add some space around TLA+ code and format it right
+\newtcolorbox{xtlabox}{
+    sharp corners,
+    frame empty,
+    colback=bluePolimi!10!white
+}
+
+\newenvironment{tlabox}%
+{\begin{xtlabox}\begin{tlatex}}%
+{\end{tlatex}\end{xtlabox}}
