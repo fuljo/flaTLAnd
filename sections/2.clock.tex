@@ -3,8 +3,9 @@
     \sectionpage
 \end{frame}
 
-\begin{frame}{Modelling a Clock}
+\begin{frame}{Simple Clock}
     A \textbf{Clock} is a device that keeps time, in our example:
+    \setbeamercovered{transparent}
     \begin{itemize}
         \item<1-> The hours go from 0 to 23
         \item<1-> The minutes go from 0 to 59
@@ -12,45 +13,53 @@
         \item<2-> After the hour reached 23, it goes back to 0.
         \item<3-> The clock should start at 00:00.
     \end{itemize}
+    \setbeamercovered{invisible}
 \end{frame}
 
-\begin{frame}{Modelling variables}
+\begin{frame}{Modelling Variables}
     We need to define 2 variables:
     \pause
+    \setbeamercovered{transparent}
     \begin{itemize}[<+->]
         \item \texttt{hr} -- The current hour of the clock
         \item \texttt{min} -- The current minute of the clock\demo
     \end{itemize}
+    \setbeamercovered{invisible}
     \onslide<+->
-    The only valid initial state for the clock is
+    \vspace{1cm}
+    The only valid initial state for the clock is expressed with this predicate:
     \[
         \texttt{hr} = 0 \quad \land \quad \texttt{min} = 0
     \]
     \demo
 \end{frame}
 
-\begin{frame}{Modelling actions}
-    \begin{block}{Next minute}
+\begin{frame}{Modelling Actions}
+    \begin{block}{Next Action}
+        \texttt{Next == NextMin $\land$ NextHr}
+    \end{block}
+    \pause
+    \begin{block}{\texttt{NextMin}}
         The next minute (\texttt{min'}) is the current one (\texttt{min}) plus one. Buf if the minute is already 59, the next is 0.
         \demo
     \end{block}
     \pause
-    \begin{block}{Next hour}
-        \only<2>{
+    \begin{block}{\texttt{NextHr}}
+        \only<3>{
             \texttt{hr' = hr + 1}\\
             \texttt{\phantom{lol}}\\
             \texttt{\phantom{lol}}\\
             \texttt{\phantom{lol}}\\
             \texttt{\phantom{lol}}\\
         }
-        \only<3>{
+        \only<4>{
             \texttt{hr' = IF min < 59}\\
             \texttt{\phantom{hr' = }THEN hr}\\
             \texttt{\phantom{hr' = }ELSE hr + 1}\\
             \texttt{\phantom{lol}}\\
             \texttt{\phantom{lol}}\\
         }
-        \only<4->{
+        \only<5->{
             \texttt{hr' = IF min < 59}\\
             \texttt{\phantom{hr' = }THEN hr}\\
             \texttt{\phantom{hr' = }ELSE IF hr < 23}\\
@@ -59,24 +68,19 @@
             \demo
         }
     \end{block}
-    \onslide<5->
-    \begin{block}{Next Predicate}
-        \texttt{Next == NextMin $\land$ NextHr}
-        \demo
-    \end{block}
 \end{frame}
 
 \begin{frame}{Behavior Specification}
     \begin{block}{Option \#1: Init -- Next}
-        The model is defined via the predicate for the initial states (\texttt{Init}), and a predicate for the \emph{next} action (\texttt{Next}).
+        The model is defined via the predicate for the initial states (\texttt{Init}), and the only action (\texttt{Next}).
         \demo
     \end{block}
     \pause
-    \begin{block}{Option \#2: Temporal Formula}
-        Specify the behavior using a temporal formula:
+    \begin{block}{Option \#2: TLA formula}
+        Specify the behavior using a TLA formula:
 
         \[
-            \texttt{Init} \land \square \texttt{[Next]}_{\texttt{vars}}
+            \texttt{Init} \land \square \texttt{[Next]}_{\texttt{vars}} \textcolor{gray!60}{\,\land \ldots}
         \]
         \demo
     \end{block}
@@ -118,6 +122,8 @@
         \[
             \texttt{LiveClock == Clock } \land \texttt{ WF}_{\texttt{vars}}\texttt{(Next)}
         \]
+
+        Since \texttt{Next} is always enabled, it must be \emph{eventually} taken, there must be only a finite number of \emph{stuttering steps} between each \texttt{Next}.
     \end{block}
     \demo
 \end{frame}
