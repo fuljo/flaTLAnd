@@ -1,11 +1,12 @@
 
 \RequirePackage{tlatex}
 \RequirePackage{amssymb}
+\RequirePackage{amsmath}
 \RequirePackage{relsize}
 \RequirePackage{wasysym}
 \RequirePackage{xspace}
 
-\RequirePackage{tcolorbox}
+\RequirePackage[most]{tcolorbox}
 
 \RequirePackage{tikz}
 \usetikzlibrary{trees, shapes.geometric, arrows}
@@ -28,17 +29,22 @@
 % Print TLA+ the right way, even in titles
 \newcommand{\tlap}{TLA\texorpdfstring{\textsuperscript{+}}{+}\xspace}
 
+% Print TLA+ string in math mode
+\newcommand{\str}[1]{\textsf{``{#1}''}}
+
+
 %------------------------------------------------
 %	Color boxes
 %------------------------------------------------
 
 % Just add some space around TLA+ code and format it right
 \newtcolorbox{xtlabox}{
+    math,
     sharp corners,
     frame empty,
     colback=bluePolimi!10!white
 }
 
 \newenvironment{tlabox}%
-{\begin{xtlabox}\begin{tlatex}}%
-{\end{tlatex}\end{xtlabox}}
+{\begin{xtlabox}\begin{tlatex}\begin{aligned}}%
+{\end{aligned}\end{tlatex}\end{xtlabox}}

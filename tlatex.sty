@@ -903,13 +903,9 @@
 % if \% is defined to be something else.  It also executes
 % \@computerule to determine the dimensions for the TLA horizonatl
 % bars.
-\newenvironment{tlatex}{\renewcommand{\rmdefault}{lmr}%
-                        \renewcommand{\sfdefault}{lmss}%
-                        \renewcommand{\ttdefault}{lmtt}%
-                        \normalfont%
-                        \@computerule%
+\newenvironment{tlatex}{\@computerule%
                         \setlength{\parindent}{0pt}%
-                        \makeatletter\chardef\%=`\%}{}
+                        \makeatletter}{}
 
 
 % The notla environment produces no output.  You can turn a 
