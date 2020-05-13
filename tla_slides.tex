@@ -14,87 +14,15 @@
     \texorpdfstring{\linebreak}{}%
     concurrent and distributed systems
 }
-\author{M. DONADONI \and A. FULGINI \and E. MORASSUTTO}
+\author{M. Donadoni \and A. Fulgini \and E. Morassutto}
 
 \begin{document}
     \begin{frame}
         \maketitle
-        % If the theme option "nologo" is specified, a custom logo
-        % can be added with the following commands:
-        %\begin{tikzpicture}[overlay, remember picture]
-        %    \node at (current page.north) [anchor=north, inner sep=2cm]
-        %    {
-        %        \includegraphics[width=0.3\paperwidth]{logo_centrato_BN_negativo.png}
-        %    };
-        %\end{tikzpicture}
     \end{frame}
 
     \begin{frame}{Table of contents}
       \tableofcontents
-    \end{frame}
-
-    \section[image=bgphoto_cut]{Section 1}
-    % Section page.
-    \begin{frame}[plain]{}
-        \sectionpage
-    \end{frame}
-
-    \begin{frame}{Slide 1}
-        \lipsum[1]
-    \end{frame}
-
-    \subsection{Subsection 1.1}
-    \begin{frame}[plain]{}
-        \subsectionpage
-    \end{frame}
-    \begin{frame}
-        This frame has an empty title.
-        \vfill
-        \begin{itemize}
-            \item item 1
-            \begin{itemize}
-                \item item 1.1
-                \item item 1.2
-            \end{itemize}
-            \item item 2
-            \item item 3
-        \end{itemize}
-    \end{frame}
-
-    \subsection{Subsection 1.2}
-    % Slide without numbering.
-    \begin{frame}[nonumber]{Slide 1.2 without numbering}
-        \lipsum[2]
-    \end{frame}
-
-    \section{Section 2}
-    \begin{frame}{Slide 2}
-        \begin{block}{Block}
-            Text.
-        \end{block}
-        \pause
-        \begin{alertblock}{Alert block}
-            Alert \alert{text}.
-        \end{alertblock}
-        \pause
-        \begin{exampleblock}{Example block}
-            Example \textcolor{greenPolimi}{text}.
-        \end{exampleblock}
-    \end{frame}
-
-    \begin{frame}[fragile]{A small example}
-        \begin{minipage}{\textwidth}
-            In this example we show a tiny bit of TLA+ code
-            \begin{tla}
-                Action == /\ a' = b + c + "string"
-                          /\ UNCHANGED <<b,c>>
-            \end{tla}
-            \begin{tlatex}
-                \@x{\@s{65.6} Action \.{\defeq} \.{\land} a \.{'} \.{=} b \.{+} c
-                \.{+}\@w{string}}%
-                \@x{\@s{101.61} \.{\land} {\UNCHANGED} {\langle} b ,\, c {\rangle}}%
-            \end{tlatex}
-        \end{minipage}
     \end{frame}
 
     \input{sections/1.introduction.tex}
@@ -103,7 +31,7 @@
 
     \input{sections/3.twophase.tex}
 
-    \section[image=bgphoto_cut]{\Circle, \emph{Questions?}}
+    \section[image=cat_man]{\Circle, \emph{Questions?}}
     \begin{frame}{}
         \sectionpage
     \end{frame}
