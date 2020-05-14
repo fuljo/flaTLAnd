@@ -18,6 +18,7 @@
 
 \begin{frame}{Modelling Variables}
     We need to define 2 variables:
+    \todo[inline]{Aggiungere spiegazione di stati/asseganmenti}
     \pause
     \setbeamercovered{transparent}
     \begin{itemize}[<+->]
@@ -78,6 +79,7 @@
     \pause
     \begin{block}{Option \#2: TLA formula}
         Specify the behavior using a TLA formula:
+        \todo[inline]{Spiegare box operator}
 
         \[
             \texttt{Init} \land \square \texttt{[Next]}_{\texttt{vars}} \textcolor{gray!60}{\,\land \ldots}
@@ -95,7 +97,7 @@
     \pause
     \begin{block}{The clock always ticks}
         \[
-            \texttt{AlwaysTick == } \square \Diamond \texttt{Next}_{\texttt{vars}}
+            \texttt{AlwaysTick == } \square \Diamond \langle \texttt{Next} \rangle _{\texttt{vars}}
         \]
     \end{block}
     \pause
