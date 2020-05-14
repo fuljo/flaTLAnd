@@ -107,7 +107,7 @@
             TCSpec \defeq TCInit \land \Box [TCNext]_{rmState}
         \end{tlabox}
     \end{uncoverenv}
-    \begin{uncoverenv}<2->
+    \begin{uncoverenv}<1->
         where initially each resource manager is working
         \begin{tlabox}
             TCInit \defeq [ r \in RM \mapsto \str{working}]
@@ -203,7 +203,7 @@
         \begin{tlabox}
             \uncover<2>{%
             canCommit \defeq \A r \in RM : rmState[r] \in \{\str{prepared},
-            \str{comm}\}}
+            \str{comm.}\}}
         \end{tlabox}
     \end{onlyenv}
 
