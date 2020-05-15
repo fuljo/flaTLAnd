@@ -31,7 +31,7 @@
 
 
 
-\subsection*{TCommit}
+\subsection{TCommit}
 \begin{frame}
     \frametitle{Specifying transaction commit}
     We start with a simple setting, in which we only consider the
@@ -179,38 +179,36 @@
 \begin{frame}
     \frametitle{The Decide action}
 
-    \only<1-3>{%
+    \only<1>{%
     First subformula: transition \alert{$prepared \rightarrow committed$}}
-    \only<4-6>{%
+    \only<2>{%
     Second subformula: transition \alert{$working, prepared \rightarrow aborted$}}
     \begin{tlabox}
         De&cide(r) \defeq \\
             &\lor \uncover<1>{%
                 \land rmState[r] = \str{prepared}} \\
-            &\phantom{\.{\lor}} \uncover<2>{%
+            &\phantom{\.{\lor}} \uncover<1>{%
                 \land canCommit} \\
-            &\phantom{\.{\lor}}\uncover<3>{%
+            &\phantom{\.{\lor}}\uncover<1>{%
                 \land rmState' = [rmState \EXCEPT \bang[r] = \str{committed}]} \\
-            &\lor \uncover<4>{%
+            &\lor \uncover<2>{%
                 \land rmState[r] \in \{\str{working}, \str{prepared}\}} \\
-            &\phantom{\.{\lor}}\uncover<5>{
+            &\phantom{\.{\lor}}\uncover<2>{
                 \land notCommitted} \\
-            &\phantom{\.{\lor}}\uncover<6>{%
+            &\phantom{\.{\lor}}\uncover<2>{%
                 \land rmState' = [rmState \EXCEPT \bang[r] = \str{aborted}]}
     \end{tlabox}
 
-    \begin{onlyenv}<1-3>
+    \begin{onlyenv}<1>
         \begin{tlabox}
-            \uncover<2>{%
             canCommit \defeq \A r \in RM : rmState[r] \in \{\str{prepared},
-            \str{comm.}\}}
+            \str{comm.}\}
         \end{tlabox}
     \end{onlyenv}
 
-    \begin{onlyenv}<4-6>
+    \begin{onlyenv}<2>
         \begin{tlabox}
-            \uncover<5>{%
-            notCommitted \defeq \A r \in RM : rmState[r] \neq \str{committed}}
+            notCommitted \defeq \A r \in RM : rmState[r] \neq \str{committed}
         \end{tlabox}
     \end{onlyenv}
 
@@ -236,30 +234,225 @@
 
 \end{frame}
 
-\setbeamercovered{invisible}
+\subsection{TwoPhase}
 
 \begin{frame}
-    \frametitle{Title}
+    \frametitle{Refining the specification}
 
-    \begin{center}
+    Now we create module $TwoPhase$ where we refine our specification,
+    adding the following variables
+    \begin{itemize}
+        \item $tmState$ -- control state of the tr. manager (init or done)
+        \item $tmPrepared$ -- set of r.m.s that t.m. knows are prepared
+        \item $msgs$ -- set of all messages ever sent
+    \end{itemize}
+
+    while $rmState$ is defined as in the previous module.
+
+    \begin{center}\scalebox{.75}{
         \begin{tikzpicture}[
             >=stealth,
-            sibling distance=7em,
-            edge from parent/.style={draw,->},
-            every node/.style={ellipse,draw}
+            ent/.style={draw, rectangle, align=center},
+            pnt/.style={circle, fill, inner sep=0.15em}
         ]
-            \node (w) {$working$}
-            child {
-                node (p) {$prepared$}
-                child {
-                    node[inner xsep=0] (c) {$committed$}
-                }
-                child {
-                    node (a) {$aborted$}
-                }
-            };
-            \path [draw, ->] (w.south east) to [bend left=30] (a.north);
+           \node[ent] at (0,2)(tm) {$tmState$ \\ $tmPrepared$};
+    
+           
+           \node[ent] (rm1) at (-3,0) {$rmState[rm1]$};
+           \node[ent] (rm2) at (0,0) {$rmState[rm2]$};
+           \node[ent] (rm3) at (3,0) {$rmState[rm3]$};
+    
+           \draw (-3,1) node[pnt]{} -- (0,1) node[pnt]{} -- (3,1) node[pnt]{};
+           \draw (rm1) -- (-3,1);
+           \draw (rm2) -- (tm);
+           \draw (rm3) -- (3,1);
+           \node[above] (msgs) at (2,1) {$msgs$};
+        \end{tikzpicture}
+    }\end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Refining the specification}
+
+    The specification for this model is
+    \begin{tlabox}
+        TPSpec \defeq TPInit \land \Box [TPNext]_{\langle rmState,\, tmState,\,
+        tmPrepared,\, msgs \rangle}
+    \end{tlabox}
+
+    Now we want to check if $TPSpec$ implements $TCSpec$, so we import the
+    definitions from module $TCommit$
+    \begin{tlabox}
+        \INSTANCE TCommit \textcolor{gray!50}{\WITH rmState \leftarrow rmState}
+    \end{tlabox}
+    and check that \alert{$TPSpec \implies TCSpec$} with TLC.
+
+    \begin{center}
+        \scriptsize
+        \begin{tikzpicture}[
+            >=stealth,
+            block/.style={draw, rectangle,
+                            minimum height=3em, minimum width=3em}
+        ]
+
+            \node[block] (tp) {$TPSpec$};
+            \node[block, right of=tp, node distance=10 em] (tc) {$TCSpec$};
+
+            \draw[draw,->] (tp) -- node[above] {$rmState$} (tc);
+            
         \end{tikzpicture}
     \end{center}
 
 \end{frame}
+
+\begin{frame}
+    \frametitle{A common step}
+
+    \begin{tlabox}
+        TPSpec \defeq TPInit \land \Box [TPNext]_{\langle rmState,\, tmState,\,
+        tmPrepared,\, msgs \rangle}
+    \end{tlabox}
+
+    {\scriptsize
+    \setlength\abovedisplayskip{0pt}
+    \setlength\belowdisplayskip{0pt}
+    \begin{alignat*}{2}
+        &\begin{bmatrix}
+            tmState : \str{init} \\
+            tmPrepared : \{\} \\
+            msgs : \{\} \\
+            rmState[rm1] : \str{work.}
+        \end{bmatrix}
+        &\xrightarrow{RMPrepare(rm1)}&
+        \begin{bmatrix}
+            tmState : \str{init} \\
+            tmPrepared : \{\} \\
+            \alert{
+            msgs = \{[type :\str{Prep}, rm : rm1]\}} \\
+            \alert{
+            rmState[rm1] : \str{prep.}}
+        \end{bmatrix}
+        \\[\baselineskip]
+        &\begin{bmatrix}
+            rmState[rm1] : \str{work.} \\
+        \end{bmatrix}
+        &\xrightarrow{\phantom{R}Prepare(rm1)\phantom{M}}&
+        \begin{bmatrix}
+            \phantom{msgs \ \ }
+            \alert{
+            rmState[rm1] : \str{prep.}}
+            \phantom{msgs \ \ }
+        \end{bmatrix}
+    \end{alignat*}
+    }
+
+    \begin{tlabox}
+        TCSpec \defeq TCInit \land \Box [TCNext]_{rmState}
+    \end{tlabox}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{A stutter step}
+
+    \begin{tlabox}
+        TPSpec \defeq TPInit \land \Box [TPNext]_{\langle rmState,\, tmState,\,
+        tmPrepared,\, msgs \rangle}
+    \end{tlabox}
+
+    {\scriptsize
+    \setlength\abovedisplayskip{0pt}
+    \setlength\belowdisplayskip{0pt}
+    \begin{alignat*}{2}
+        &\begin{bmatrix}
+            tmState : \str{init} \\
+            tmPrepared : \{\} \\
+            msgs = \{\dots\} \\
+            rmState[rm1] : \str{prep.}
+        \end{bmatrix}
+        &\xrightarrow{TMRcvPrepared(rm1)}&
+        \begin{bmatrix}
+            tmState : \str{init} \\
+            \alert{
+            tmPrepared : \{rm1\}} \\
+            msgs : \{\dots\} \\
+            rmState[rm1] : \str{prep.}
+        \end{bmatrix}
+        \\[\baselineskip]        
+        &\begin{bmatrix}
+            rmState[rm1] : \str{prep.}
+        \end{bmatrix}
+        &\xrightarrow{\phantom{T} \UNCHANGED rmState \phantom{T}}&
+        \begin{bmatrix}
+            rmState[rm1] : \str{prep.} \\
+        \end{bmatrix}
+    \end{alignat*}
+    }
+
+    \begin{tlabox}
+        TCSpec \defeq TCInit \land \Box [TCNext]_{rmState}
+    \end{tlabox}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Symmetry}
+
+    TLC is an explicit-state model checker, so it suffers from state
+    explosion. Consider the following possible states according to $TPSpec$:
+
+    {\setlength\abovedisplayskip{0pt}
+    \setlength\belowdisplayskip{0pt}
+    \begin{gather*}
+        s = 
+        \begin{bmatrix}
+            rmState[\textcolor{redPolimi}{rm1}] : \str{work.} \\
+            rmState[\textcolor{bluePolimi}{rm2}] : \str{prep.} \\
+            rmState[\textcolor{yellowPolimi}{rm3}] : \str{com.} \\
+            \dots
+        \end{bmatrix}
+        \quad
+        s^{\pi} = 
+        \begin{bmatrix}
+            rmState[\textcolor{yellowPolimi}{rm3}] : \str{work.} \\
+            rmState[\textcolor{bluePolimi}{rm2}] : \str{prep.} \\
+            rmState[\textcolor{redPolimi}{rm1}] : \str{com.} \\
+            \dots
+        \end{bmatrix} \\
+        \pi = [
+            rm1 \mapsto rm3,\,
+            rm2 \mapsto rm2,\,
+            rm3 \mapsto rm1
+        ]
+    \end{gather*}}
+
+    Since permutations such as $\pi$ are irrelevant for us, we can take
+    advantage of \emph{symmetry}.
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Symmetry}
+
+    \begin{block}{Symmetric specification}
+        A specification $Spec$ is symmetric with respect to a permutation $\pi$
+        over a set of values $S$ if and only if for each behavior $\sigma$:
+        \[
+             \sigma \models Spec \iff \sigma^{\pi} \models Spec
+        \]
+    \end{block}
+
+    $TPSpec$ is indeed symmetric w.r.t. the permutations of set $RM$,
+    since all resource managers are equal.
+
+    After stating that \alert{$RM$ is a symmetry set} in our model, if TLC
+    has already visited a state $s$, it will avoid visiting a state $s^{\pi}$,
+    where $\pi$ is a permutation of values in $RM$.
+    
+    This reduces the number of states to be checked by a factor of
+    $\lvert RM \rvert !$.
+
+\end{frame}
+
+\setbeamercovered{invisible}
