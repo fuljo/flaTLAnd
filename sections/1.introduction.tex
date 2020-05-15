@@ -105,3 +105,109 @@
         \caption{\footnotesize Examples of \tlap usage at Amazon, from} %TODO bib
     \end{figure}
 \end{frame}
+
+\section[image=bgphoto_cut]{\tlap}
+\begin{frame}[plain]{}
+    \sectionpage
+\end{frame}
+
+\begin{frame}{System description}
+    In \tlap, systems are described as \emph{state machines}, using variables.
+
+    \begin{block}{State}
+        A \emph{state} of the system is one of the possible assignment of values to the variables.
+    \end{block}
+    To describe how the system evolves we have to define how the variables change between one state and the next one (transition function).
+\end{frame}
+
+\begin{frame}{Variables}
+    In \tlap, states are described using \emph{variables}:
+    \begin{itemize}
+        \item<1-> Numbers or strings
+        \item<2-> Sets\\
+        \only<2> {
+            \begin{center}
+                \begin{tabular}{ll}
+                    $\left\{ e_1, \dots, e_n \right\}$ & is a generic set\\
+                    $\left\{ x \in S : p \right\}$ & is the set of elements of $S$ that satisfy $p$\\
+                    $\SUBSET S$ & is the powerset of $S$\\
+                \end{tabular}
+            \end{center}
+        }
+        \item<3-> Functions\\
+        \only<3> {
+            \begin{center}
+                \begin{tabularx}{0.9\textwidth}{lX}
+                    $f \left[ e \right]$ & is the function application\\
+                    $\left[ x \in S \mapsto e \right]$ & is a function such that $f \left[ x \right] = e$ for every $x \in S$\\
+                    $\left[ S \rightarrow T \right]$ & is the set of functions from $S$ to $T$\\
+                \end{tabularx}
+            \end{center}
+        }
+        \item<4-> Records
+        \only<4> {
+            \begin{center}
+                \begin{tabularx}{0.92\textwidth}{lX}
+                    $e.h$ & is the $h$-field of $e$\\
+                    $\left[ h_1 \mapsto e_1, \dots, h_n \mapsto e_n \right]$ & is the record whos $h_i$ field is $e_i$\\
+                    $\left[ h_1 : S_1, \dots, h_n : S_n \right]$ & is the set of records with $h_i$ field in $S_i$\\
+                \end{tabularx}
+            \end{center}
+        }
+        \item<5-> Tuples
+        \only<5> {
+            \begin{center}
+                \begin{tabularx}{0.92\textwidth}{lX}
+                    $e \left[ i \right]$ & is the $i$-th component of $e$\\
+                    $\left< e_1, \dots, e_n \right>$ & is the $n$-tuple with $e_i$ as the $i$-th component\\
+                    $S_1 \times \dots \times S_n$ & is the cartesian product\\
+                \end{tabularx}
+            \end{center}
+        }
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Operators}
+    These are some of the operators used by \tlap:
+    \begin{itemize}
+        \item Logical operator such as $\land$, $\lor$, $\neg$, $\implies$, $\equiv$
+        \item Quantifiers such as $\forall x \in S : p$ and $\exists x \in S : p$
+        \item Set operators $\in$, $\notin$, $\cup$, $\cap$, $\subseteq$, $ \setminus $
+        \item Mathematical operators such as $+$, $-$, \dots
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{State functions and predicates}
+    \begin{block}{State function}
+    A \emph{state function} is a non-boolean expression built from variables and constants, for example $x^2 + y$.
+    \end{block}
+
+    \begin{block}{State predicate}
+        A \emph{state predicate} is a boolean expression built from variables and constants, for example $y = 2$.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Actions}
+    How can we describe how the system evolves?
+    \pause
+    \begin{block}{Action}
+        An action represents a relation between a state and the next one and is a boolean-expression formed of variables, constants and \emph{primed variables}. Primed variables refer to the new state.
+    \end{block}
+
+    A very simple example of action is $x' = x + 1$.
+\end{frame}
+
+\begin{frame}{System specification}
+    As we said, in \tlap systems are described as state machines. In particular, we have to define:
+    \begin{itemize}
+        \item $Init$, a state predicate which characterizes the initial states.
+        \item $Next$, which describes the transition function of the system, using actions.
+    \end{itemize}
+    \pause
+    For example, a very simple system with one variable $x$ that can be either incremented or doubled at every step can be defined as:
+    \begin{align*}
+        Init &\defeq x = 0 \\
+        Next &\defeq x' = x+1 \; \lor \; x' = 2 \cdot x\\
+    \end{align*}
+\end{frame}
