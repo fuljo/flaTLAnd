@@ -18,7 +18,6 @@
 
 \begin{frame}{Modelling Variables}
     We need to define 2 variables:
-    \todo[inline]{Aggiungere spiegazione di stati/asseganmenti}
     \pause
     \setbeamercovered{transparent}
     \begin{itemize}[<+->]
@@ -79,21 +78,18 @@
     \pause
     \begin{block}{Option \#2: TLA formula}
         Specify the behavior using a TLA formula:
-        \todo[inline]{Spiegare box operator}
 
         \[
             \texttt{Init} \land \square \texttt{[Next]}_{\texttt{vars}} \textcolor{gray!60}{\,\land \ldots}
         \]
         \demo
+
+        Note that $\square \texttt{[Next]}_{\texttt{vars}} \defeq \square ( \texttt{Next} \lor \texttt{vars'} = \texttt{vars} )$
     \end{block}
 \end{frame}
 
 \begin{frame}{Check Temporal Formulae}
     We want to verify some temporal formulae:
-    \begin{itemize}
-        \item The clock always ticks
-        \item All the possible times are reachable
-    \end{itemize}
     \pause
     \begin{block}{The clock always ticks}
         \[
