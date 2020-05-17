@@ -117,7 +117,7 @@
     We need to add a fairness constraint
     \begin{block}{Fairness constraint}
         \[
-            LiveClock \defeq Clock \,\land WF_{vars}(Tick\,)
+            LiveClock \defeq Clock \,\land \WF _{vars}(Tick\,)
         \]
 
         Since $Tick$ is always enabled, it must be \emph{eventually} taken, there must be only a finite number of \emph{stuttering steps} between each $Tick$.
