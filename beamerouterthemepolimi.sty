@@ -6,7 +6,7 @@
 % Header.
 \defbeamertemplate*{frametitle}{polimi}
 {
-    \begin{tikzpicture}[overlay, remember picture]
+    \begin{tikzpicture}[overlay, remember picture, text depth=.25ex]
     \node at ([shift={(\xshift, -0.6)}] current page.north west) [anchor=south west, inner sep=0pt]
     {
         {\small \insertsectionhead \ifx\insertsubsection\empty\else\ - \insertsubsectionhead\fi\leavevmode}
@@ -28,7 +28,7 @@
 \defbeamertemplate{headline}{frame number}
 {
     \ifnum\c@framenumber>0
-        \begin{tikzpicture}[overlay, remember picture]
+        \begin{tikzpicture}[overlay, remember picture, text depth=.25ex]
         \node at ([shift={(-0.5\xshift, -1.25)}] current page.north east) [anchor=south east, inner sep=0pt]
         {
             {\color{white} \tiny \insertframenumber/\inserttotalframenumber}
