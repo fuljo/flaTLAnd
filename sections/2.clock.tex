@@ -19,50 +19,50 @@
     We need to define 2 variables:
     \setbeamercovered{transparent}
     \begin{itemize}[<+->]
-        \item \texttt{hr} -- The current hour of the clock
-        \item \texttt{min} -- The current minute of the clock\demo
+        \item $hr$ -- The current hour of the clock
+        \item $min$ -- The current minute of the clock\demo
     \end{itemize}
     \setbeamercovered{invisible}
     \onslide<+->
     \vspace{1cm}
     The only valid initial state for the clock is expressed with this predicate:
     \[
-        \texttt{hr} = 0 \quad \land \quad \texttt{min} = 0
+        hr = 0 \quad \land \quad min = 0
     \]
     \demo
 \end{frame}
 
 \begin{frame}{Modelling Actions}
     \begin{block}{Tick Action}
-        \texttt{Tick == AdvanceMin $\land$ AdvanceHr}
+        $Tick \defeq AdvanceMin \,\land AdvanceHr$
     \end{block}
     \pause
-    \begin{block}{\texttt{AdvanceMin}}
-        The next minute (\texttt{min'}) is the current one (\texttt{min}) plus one. Buf if the minute is already 59, the next is 0.
+    \begin{block}{$AdvanceMin$}
+        The next minute ($min'$) is the current one ($min$) plus one. Buf if the minute is already 59, the next is 0.
         \demo
     \end{block}
     \pause
-    \begin{block}{\texttt{AdvanceHr}}
+    \begin{block}{$AdvanceHr$}
         \only<3>{
-            \texttt{hr' = hr + 1}\\
-            \texttt{\phantom{lol}}\\
-            \texttt{\phantom{lol}}\\
-            \texttt{\phantom{lol}}\\
-            \texttt{\phantom{lol}}\\
+            $hr' = hr + 1$\\
+            $\phantom{lol}$\\
+            $\phantom{lol}$\\
+            $\phantom{lol}$\\
+            $\phantom{lol}$\\
         }
         \only<4>{
-            \texttt{hr' = IF min < 59}\\
-            \texttt{\phantom{hr' = }THEN hr}\\
-            \texttt{\phantom{hr' = }ELSE hr + 1}\\
-            \texttt{\phantom{lol}}\\
-            \texttt{\phantom{lol}}\\
+            $hr' = \IF min < 59$\\
+            $\phantom{hr' =}\THEN hr$\\
+            $\phantom{hr' =}\ELSE hr + 1$\\
+            $\phantom{lol}$\\
+            $\phantom{lol}$\\
         }
         \only<5->{
-            \texttt{hr' = IF min < 59}\\
-            \texttt{\phantom{hr' = }THEN hr}\\
-            \texttt{\phantom{hr' = }ELSE IF hr < 23}\\
-            \texttt{\phantom{hr' = ELSE }THEN hr + 1}\\
-            \texttt{\phantom{hr' = ELSE }ELSE 0}
+            $hr' = \IF min < 59$\\
+            $\phantom{hr' = }\THEN hr$\\
+            $\phantom{hr' = }\ELSE \IF hr < 23$\\
+            $\qquad\qquad\quad\THEN hr + 1$\\
+            $\qquad\qquad\quad\ELSE 0$
             \demo
         }
     \end{block}
@@ -70,7 +70,7 @@
 
 \begin{frame}{Behavior Specification}
     \begin{block}{Option \#1: Init -- Next}
-        The model is defined via the predicate for the initial states (\texttt{Init}), and the only action (\texttt{Tick}).
+        The model is defined via the predicate for the initial states $Init$, and the only action $Tick$.
         \demo
     \end{block}
     \pause
@@ -78,11 +78,11 @@
         Specify the behavior using a TLA formula:
 
         \[
-            \texttt{Init} \land \square \texttt{[Tick]}_{\texttt{vars}} \textcolor{gray!60}{\,\land \ldots}
+            Init \land \square \left[Tick\,\right]_{vars} \textcolor{gray!60}{\,\land \ldots}
         \]
         \demo
 
-        Note that $\quad\square \texttt{[Tick]}_{\texttt{vars}} \defeq \square ( \texttt{Tick} \lor \texttt{vars'} = \texttt{vars} )$
+        Note that $\quad\square \left[Tick\,\right]_{vars} \defeq \square ( Tick \lor vars' = vars\,)$
     \end{block}
 \end{frame}
 
@@ -91,15 +91,15 @@
     \pause
     \begin{block}{The clock always ticks}
         \[
-            \texttt{AlwaysTick == } \square \Diamond \langle \texttt{Tick} \rangle _{\texttt{vars}}
+            AlwaysTick \defeq \square \Diamond \langle Tick\, \rangle _{vars}
         \]
     \end{block}
     \pause
     \begin{block}{All the possible times are reachable}
         \begin{equation*}
             \begin{gathered}
-                \texttt{AllTimes == } \forall h \in (0 \ldots 23), m \in (0 \ldots 59):\\
-                \square \Diamond (\texttt{hr = } h\; \land\; \texttt{min = } m)
+                AllTimes \defeq \forall h \in (0 \ldots 23), m \in (0 \ldots 59):\\
+                \square \Diamond (hr = h\; \land\; min = m)
             \end{gathered}
         \end{equation*}
     \end{block}
@@ -117,10 +117,10 @@
     We need to add a fairness constraint
     \begin{block}{Fairness constraint}
         \[
-            \texttt{LiveClock == Clock } \land \texttt{ WF}_{\texttt{vars}}\texttt{(Tick)}
+            LiveClock \defeq Clock \,\land WF_{vars}(Tick\,)
         \]
 
-        Since \texttt{Tick} is always enabled, it must be \emph{eventually} taken, there must be only a finite number of \emph{stuttering steps} between each \texttt{Tick}.
+        Since $Tick$ is always enabled, it must be \emph{eventually} taken, there must be only a finite number of \emph{stuttering steps} between each $Tick$.
     \end{block}
     \demo
 \end{frame}
