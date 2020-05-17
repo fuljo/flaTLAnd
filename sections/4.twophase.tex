@@ -255,13 +255,13 @@
             ent/.style={draw, rectangle, align=center},
             pnt/.style={circle, fill, inner sep=0.15em}
         ]
-           \node[ent] at (0,2)(tm) {$tmState$ \\ $tmPrepared$};
-    
-           
+           \node[ent] at (0,2) (tm) {$tmState$ \\ $tmPrepared$};
+
+
            \node[ent] (rm1) at (-3,0) {$rmState[rm1]$};
            \node[ent] (rm2) at (0,0) {$rmState[rm2]$};
            \node[ent] (rm3) at (3,0) {$rmState[rm3]$};
-    
+
            \draw (-3,1) node[pnt]{} -- (0,1) node[pnt]{} -- (3,1) node[pnt]{};
            \draw (rm1) -- (-3,1);
            \draw (rm2) -- (tm);
@@ -300,7 +300,7 @@
             \node[block, right of=tp, node distance=10 em] (tc) {$TCSpec$};
 
             \draw[draw,->] (tp) -- node[above] {$rmState$} (tc);
-            
+
         \end{tikzpicture}
     \end{center}
 
@@ -379,7 +379,7 @@
             msgs : \{\dots\} \\
             rmState[rm1] : \str{prep.}
         \end{bmatrix}
-        \\[\baselineskip]        
+        \\[\baselineskip]
         &\begin{bmatrix}
             rmState[rm1] : \str{prep.}
         \end{bmatrix}
@@ -397,7 +397,7 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Symmetry}
+    \frametitle{Taking advantage of symmetry}
 
     TLC is an explicit-state model checker, so it suffers from state
     explosion. Consider the following possible states according to $TPSpec$:
@@ -405,17 +405,17 @@
     {\setlength\abovedisplayskip{0pt}
     \setlength\belowdisplayskip{0pt}
     \begin{gather*}
-        s = 
+        s =
         \begin{bmatrix}
-            rmState[\textcolor{redPolimi}{rm1}] : \str{work.} \\
+            rmState[\textcolor{redPolimi}{rm1}] : \str{prep.} \\
             rmState[\textcolor{bluePolimi}{rm2}] : \str{prep.} \\
             rmState[\textcolor{yellowPolimi}{rm3}] : \str{com.} \\
             \dots
         \end{bmatrix}
         \quad
-        s^{\pi} = 
+        s^{\pi} =
         \begin{bmatrix}
-            rmState[\textcolor{yellowPolimi}{rm3}] : \str{work.} \\
+            rmState[\textcolor{yellowPolimi}{rm3}] : \str{prep.} \\
             rmState[\textcolor{bluePolimi}{rm2}] : \str{prep.} \\
             rmState[\textcolor{redPolimi}{rm1}] : \str{com.} \\
             \dots
@@ -433,9 +433,10 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Symmetry}
+    \frametitle{Taking advantage of symmetry}
 
     \begin{block}{Symmetric specification}
+        \setlength\belowdisplayskip{0pt}
         A specification $Spec$ is symmetric with respect to a permutation $\pi$
         over a set of values $S$ if and only if for each behavior $\sigma$:
         \[
@@ -449,9 +450,9 @@
     After stating that \alert{$RM$ is a symmetry set} in our model, if TLC
     has already visited a state $s$, it will avoid visiting a state $s^{\pi}$,
     where $\pi$ is a permutation of values in $RM$.
-    
-    This reduces the number of states to be checked by a factor of
-    $\lvert RM \rvert !$.
+
+    A reduction of a factor $\lvert RM \rvert !$ can be observed for the number
+    of states to be checked.
 
 \end{frame}
 
