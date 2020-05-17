@@ -1,0 +1,5 @@
+---- MODULE LiveClock ----
+
+EXTENDS Clock
+
+====

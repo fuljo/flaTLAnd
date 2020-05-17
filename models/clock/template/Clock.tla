@@ -1,0 +1,6 @@
+---- MODULE Clock ----
+
+EXTENDS Naturals
+
+
+====

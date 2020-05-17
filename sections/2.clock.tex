@@ -4,11 +4,10 @@
 \end{frame}
 
 \begin{frame}{Simple Clock}
-    A \textbf{Clock} is a device that keeps time, in our example:
+    A $24h$ \textbf{Clock} is a device that keeps time, in our example:
     \setbeamercovered{transparent}
     \begin{itemize}
-        \item<1-> The hours go from 0 to 23
-        \item<1-> The minutes go from 0 to 59
+        \item<1-> It goes from \texttt{00:00} to \texttt{23:59}, ignoring seconds.
         \item<2-> After the minute 59 there is minute 0 and the hour is incremented.
         \item<2-> After the hour reached 23, it goes back to 0.
         \item<3-> The clock should start at 00:00.
@@ -18,7 +17,6 @@
 
 \begin{frame}{Modelling Variables}
     We need to define 2 variables:
-    \pause
     \setbeamercovered{transparent}
     \begin{itemize}[<+->]
         \item \texttt{hr} -- The current hour of the clock
@@ -35,16 +33,16 @@
 \end{frame}
 
 \begin{frame}{Modelling Actions}
-    \begin{block}{Next Action}
-        \texttt{Next == NextMin $\land$ NextHr}
+    \begin{block}{Tick Action}
+        \texttt{Tick == AdvanceMin $\land$ AdvanceHr}
     \end{block}
     \pause
-    \begin{block}{\texttt{NextMin}}
+    \begin{block}{\texttt{AdvanceMin}}
         The next minute (\texttt{min'}) is the current one (\texttt{min}) plus one. Buf if the minute is already 59, the next is 0.
         \demo
     \end{block}
     \pause
-    \begin{block}{\texttt{NextHr}}
+    \begin{block}{\texttt{AdvanceHr}}
         \only<3>{
             \texttt{hr' = hr + 1}\\
             \texttt{\phantom{lol}}\\
@@ -72,7 +70,7 @@
 
 \begin{frame}{Behavior Specification}
     \begin{block}{Option \#1: Init -- Next}
-        The model is defined via the predicate for the initial states (\texttt{Init}), and the only action (\texttt{Next}).
+        The model is defined via the predicate for the initial states (\texttt{Init}), and the only action (\texttt{Tick}).
         \demo
     \end{block}
     \pause
@@ -80,11 +78,11 @@
         Specify the behavior using a TLA formula:
 
         \[
-            \texttt{Init} \land \square \texttt{[Next]}_{\texttt{vars}} \textcolor{gray!60}{\,\land \ldots}
+            \texttt{Init} \land \square \texttt{[Tick]}_{\texttt{vars}} \textcolor{gray!60}{\,\land \ldots}
         \]
         \demo
 
-        Note that $\square \texttt{[Next]}_{\texttt{vars}} \defeq \square ( \texttt{Next} \lor \texttt{vars'} = \texttt{vars} )$
+        Note that $\quad\square \texttt{[Tick]}_{\texttt{vars}} \defeq \square ( \texttt{Tick} \lor \texttt{vars'} = \texttt{vars} )$
     \end{block}
 \end{frame}
 
@@ -93,7 +91,7 @@
     \pause
     \begin{block}{The clock always ticks}
         \[
-            \texttt{AlwaysTick == } \square \Diamond \langle \texttt{Next} \rangle _{\texttt{vars}}
+            \texttt{AlwaysTick == } \square \Diamond \langle \texttt{Tick} \rangle _{\texttt{vars}}
         \]
     \end{block}
     \pause
@@ -113,15 +111,16 @@
     \[
         \texttt{00:00} \rightarrow \texttt{00:00} \rightarrow \texttt{00:00} \rightarrow \texttt{00:00} \rightarrow \cdots
     \]
-    is a valid behavior composed of an infinite sequence of \emph{stuttering steps}.
+    It allows an infinite sequence of \emph{stuttering steps}, which is not the correct clock behavior.
+
     \pause
     We need to add a fairness constraint
-    \begin{block}{Weak Fairness constraint}
+    \begin{block}{Fairness constraint}
         \[
-            \texttt{LiveClock == Clock } \land \texttt{ WF}_{\texttt{vars}}\texttt{(Next)}
+            \texttt{LiveClock == Clock } \land \texttt{ WF}_{\texttt{vars}}\texttt{(Tick)}
         \]
 
-        Since \texttt{Next} is always enabled, it must be \emph{eventually} taken, there must be only a finite number of \emph{stuttering steps} between each \texttt{Next}.
+        Since \texttt{Tick} is always enabled, it must be \emph{eventually} taken, there must be only a finite number of \emph{stuttering steps} between each \texttt{Tick}.
     \end{block}
     \demo
 \end{frame}
