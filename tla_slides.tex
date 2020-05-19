@@ -5,10 +5,13 @@
 \usepackage{todonotes}
 \usepackage{style}
 \usepackage{tabularx}
+\usepackage{hyperref}
 
 % Theme based on https://github.com/elauksap/beamerthemepolimi
 \usetheme[bgphoto]{polimi}
 \usefonttheme[onlymath]{serif}
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
 
 \title{\tlap}
 \subtitle{%
@@ -40,5 +43,28 @@
     \section*{\texorpdfstring{\Circle}{Next}, \emph{Questions?}}
     \begin{frame}
         \sectionpage
+    \end{frame}
+
+    \nocite{*}
+    \section*{}
+    \begin{frame}{References}
+        \scriptsize
+        \bibliographystyle{abbrv}
+        \bibliography{references}
+    \end{frame}
+
+    \begin{frame}{Useful Links}
+        \begin{itemize}
+            \item \tlap website\\
+            \smallurl{https://lamport.azurewebsites.net/tla/tla.html}
+            \item \tlap tools repository\\
+            \smallurl{https://github.com/tlaplus/tlaplus}
+            \item \tlap examples\\
+            \smallurl{https://github.com/tlaplus/Examples}
+            \item Discussion group for users of \tlap\\
+            \smallurl{https://groups.google.com/forum/\#!forum/tlaplus}
+            \item \tlap specifications for the consistency levels of Azure Cosmos DB\\
+            \smallurl{https://github.com/Azure/azure-cosmos-tla}
+        \end{itemize}
     \end{frame}
 \end{document}
