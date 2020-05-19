@@ -9,7 +9,11 @@
     \begin{tikzpicture}[overlay, remember picture, text depth=.25ex]
     \node at ([shift={(\xshift, -0.6)}] current page.north west) [anchor=south west, inner sep=0pt]
     {
+        \ifhidesechead
+        {\small\phantom{Section}\leavevmode}
+        \else
         {\small \insertsectionhead \ifx\insertsubsection\empty\else\ - \insertsubsectionhead\fi\leavevmode}
+        \fi
     };
     \node at ([shift={(\xshift, -1.25)}] current page.north west) [anchor=south west, inner sep=0pt]
     {
